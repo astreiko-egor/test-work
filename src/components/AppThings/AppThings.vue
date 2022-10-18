@@ -1,9 +1,9 @@
 <template>
     <div class="app-things">
-        <app-things-view :list-items="leftViewItems" class="app-things__view app-things__view--left"/>
-        <app-things-view :list-items="rightViewItems" class="app-things__view app-things__view--right"/>
-        <app-things-select :list-items="leftData" v-model:selected-items-id="leftSelectedItemsId" class="app-things__select app-things__select--left"/>
-        <app-things-select :list-items="rightData" v-model:selected-items-id="rightSelectedItemsId" :count-selected-item="1" class="app-things__select app-things__select--right"/>
+        <app-things-view :list-items="leftSelectedItems" class="app-things__view app-things__view--left"/>
+        <app-things-view :list-items="rightSelectedItems" class="app-things__view app-things__view--right"/>
+        <app-things-select :list-items="leftData" v-model:selected-items="leftSelectedItems" class="app-things__select app-things__select--left"/>
+        <app-things-select :list-items="rightData" v-model:selected-items="rightSelectedItems" :count-selected-item="1" class="app-things__select app-things__select--right"/>
     </div>
 </template>
 
@@ -82,21 +82,8 @@ import type {IObjItem} from '@/types/index';
             "name": "Hoodie 4"
         }
     ]);
-    const leftSelectedItemsId = ref<number[]>([]);
-    const rightSelectedItemsId = ref<number[]>([]);
-    const leftViewItems = computed(() => createViewArray(leftData.value, leftSelectedItemsId.value))
-    const rightViewItems = computed(() => createViewArray(rightData.value, rightSelectedItemsId.value))
-
-    const createViewArray = (allItems: IObjItem[], selectedItemsId: number[]) => {
-        const result:IObjItem[] = [];
-        selectedItemsId.forEach((selectedItemId: number) => {
-            const findItem = allItems.find((item: IObjItem) => item.id === selectedItemId)
-            if (findItem) {
-                result.push(findItem)
-            }
-        })
-        return result;
-    }
+    const leftSelectedItems = ref<IObjItem[]>([]);
+    const rightSelectedItems = ref<IObjItem[]>([]);
 </script>
 
 <style lang="scss" scoped>

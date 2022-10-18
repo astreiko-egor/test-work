@@ -16,11 +16,11 @@ describe('AppThingsSelect', () => {
     it('Рендер пунктов при передаче пропсов', () => {
         const data = [
             {
-                id: 0,
+                id: 1,
                 name: 'item 1'
             },
             {
-                id: 0,
+                id: 2,
                 name: 'item 2'
             },
         ];
@@ -35,7 +35,7 @@ describe('AppThingsSelect', () => {
     it('Выбор пункта при клике', async () => {
         const data = [
             {
-                id: 0,
+                id: 1,
                 name: 'item 1'
             }
         ];
@@ -43,18 +43,18 @@ describe('AppThingsSelect', () => {
 
         await wrapper.find('.app-things-select__item').trigger('click');
 
-        expect(wrapper.emitted()['update:selectedItems'][0]).toEqual([[0]]);
+        expect(wrapper.emitted()['update:selectedItems'][0]).toEqual([data]);
         wrapper.unmount();
     })
 
     it('Нельзя выбрать больше элементов, чем заданно пропсами', async() => {
         const data = [
             {
-                id: 0,
+                id: 1,
                 name: 'item 1'
             },
             {
-                id: 1,
+                id: 2,
                 name: 'item 2'
             }
         ];
@@ -63,8 +63,7 @@ describe('AppThingsSelect', () => {
 
         await wrapper.findAll('.app-things-select__item')[0].trigger('click');
         await wrapper.findAll('.app-things-select__item')[1].trigger('click');
-
-        expect(wrapper.emitted()['update:selectedItems'][0]).toEqual([[1, 0]]);
+        expect(wrapper.emitted()['update:selectedItems'][0]).toEqual([[data[1], data[0]]]);
 
         await wrapper.setProps({
             countSelectedItem: 1
@@ -72,7 +71,7 @@ describe('AppThingsSelect', () => {
 
         await wrapper.findAll('.app-things-select__item')[0].trigger('click');
         await wrapper.findAll('.app-things-select__item')[1].trigger('click');
-        expect(wrapper.emitted()['update:selectedItems'][0]).toEqual([[1]]);
+        expect(wrapper.emitted()['update:selectedItems'][0]).toEqual([[data[1]]]);
         wrapper.unmount();
     })
 })
