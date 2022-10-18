@@ -3,8 +3,8 @@
         <div class="app-things-select__content">
             <span v-for="item in listItems" 
                 :key="item.id"
-                class="app-things-select__item" :class="[selectedItemsId.indexOf(item.id) !== -1 ? 'app-things-select__item--disabled': '']"
-                @click="onSelect(item.id)">
+                class="app-things-select__item" :class="[selectedItems.indexOf(item) !== -1 ? 'app-things-select__item--disabled': '']"
+                @click="onSelect(item)">
                 {{ item.name }}
             </span>
         </div>
@@ -16,24 +16,24 @@
 
     export interface ISelectProps {
         listItems?: IObjItem[];
-        selectedItemsId?: number[];
+        selectedItems?: IObjItem[];
         countSelectedItem?: number;
     }
 
     const emmit = defineEmits<{
-        (e: 'update:selectedItems', value: number[]): void;
+        (e: 'update:selectedItems', value: IObjItem[]): void;
     }>();
 
     const props = withDefaults(defineProps<ISelectProps>(), {
         listItems: () => ([]),
-        selectedItemsId: () => ([]),
+        selectedItems: () => ([]),
         countSelectedItem: 6
     })
 
-    const onSelect = (id: number) => {
-        const result = props.selectedItemsId;
+    const onSelect = (item: IObjItem) => {
+        const result = props.selectedItems;
 
-        result.unshift(id);
+        result.unshift(item);
 
         if (result.length > props.countSelectedItem) {
             result.length = props.countSelectedItem;
